@@ -408,7 +408,24 @@ var GameBoard = /*#__PURE__*/function () {
 
 var _default = GameBoard;
 exports.default = _default;
-},{"@babel/runtime/helpers/toConsumableArray":"node_modules/@babel/runtime/helpers/toConsumableArray.js","@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","./setup":"setup.js"}],"Pacman.js":[function(require,module,exports) {
+},{"@babel/runtime/helpers/toConsumableArray":"node_modules/@babel/runtime/helpers/toConsumableArray.js","@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","./setup":"setup.js"}],"node_modules/@babel/runtime/helpers/defineProperty.js":[function(require,module,exports) {
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+module.exports = _defineProperty;
+},{}],"Pacman.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -420,13 +437,30 @@ var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/cl
 
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
 
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+
 var _setup = require("./setup");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Pacman = /*#__PURE__*/function () {
   function Pacman(speed, startPos) {
+    var _this = this;
+
     (0, _classCallCheck2.default)(this, Pacman);
+    (0, _defineProperty2.default)(this, "handleKeyInput", function (e, objectExist) {
+      var dir;
+
+      if (e.keyCode >= 37 && e.keyCode <= 40) {
+        dir = _setup.DIRECTIONS[e.key];
+      } else {
+        return;
+      }
+
+      var nextMovePos = _this.pos + dir.movement;
+      if (objectExist(nextMovePos, _setup.OBJECT_TYPE.WALL)) return;
+      _this.dir = dir;
+    });
     this.pos = startPos;
     this.speed = speed;
     this.dir = null;
@@ -438,7 +472,8 @@ var Pacman = /*#__PURE__*/function () {
   (0, _createClass2.default)(Pacman, [{
     key: "shouldMove",
     value: function shouldMove() {
-      if (!this.dir) return false;
+      // Don't move before a key is pressed
+      if (!this.dir) return;
 
       if (this.timer === this.speed) {
         this.timer = 0;
@@ -450,7 +485,7 @@ var Pacman = /*#__PURE__*/function () {
   }, {
     key: "getNextMove",
     value: function getNextMove(objectExist) {
-      var nextMovePos = this.pos + this.dir.movement;
+      var nextMovePos = this.pos + this.dir.movement; // Do we collide with a wall?
 
       if (objectExist(nextMovePos, _setup.OBJECT_TYPE.WALL) || objectExist(nextMovePos, _setup.OBJECT_TYPE.GHOSTLAIR)) {
         nextMovePos = this.pos;
@@ -467,7 +502,7 @@ var Pacman = /*#__PURE__*/function () {
       var classesToRemove = [_setup.OBJECT_TYPE.PACMAN];
       var classesToAdd = [_setup.OBJECT_TYPE.PACMAN];
       return {
-        classToRemove: classToRemove,
+        classesToRemove: classesToRemove,
         classesToAdd: classesToAdd
       };
     }
@@ -476,28 +511,13 @@ var Pacman = /*#__PURE__*/function () {
     value: function setNewPos(nextMovePos) {
       this.pos = nextMovePos;
     }
-  }, {
-    key: "handleKeyInput",
-    value: function handleKeyInput(e, objectExist) {
-      var dir;
-
-      if (e.keycode >= 37 && e.keyCode <= 40) {
-        dir = _setup.DIRECTIONS[e.key];
-      } else {
-        return;
-      }
-
-      var nextMovePos = this.pos + dir.movement;
-      if (objectExist(nextMovePos, _setup.OBJECT_TYPE.WALL) || objectExist(nextMovePos, _setup.OBJECT_TYPE.GHOSTLAIR)) return;
-      this.dir = dir;
-    }
   }]);
   return Pacman;
 }();
 
 var _default = Pacman;
 exports.default = _default;
-},{"@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","./setup":"setup.js"}],"ghostMoves.js":[function(require,module,exports) {
+},{"@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/defineProperty":"node_modules/@babel/runtime/helpers/defineProperty.js","./setup":"setup.js"}],"ghostMoves.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -803,7 +823,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49295" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57911" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
