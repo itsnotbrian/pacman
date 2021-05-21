@@ -1,4 +1,5 @@
-import  {DIRECTIONS, directions, OBJECT_TYPE} from "./setup";
+import { DIRECTIONS, OBJECT_TYPE } from "./setup";
+import { randomMovement } from "./ghostMoves";
 
 class Ghost {
   constructor(speed = 5, startPos, movement, name) {
@@ -19,10 +20,10 @@ class Ghost {
       return true;
     }
     this.timer++;
-    return false;
-  }
+     }
 
   getNextMove(objectExist) {
+      //call move algorithm here
     const { nextMovePos, direction } = this.movement(
       this.pos,
       this.dir,
@@ -39,7 +40,8 @@ class Ghost {
 
     return { classesToRemove, classesToAdd };
   }
-  setNewPos(nextMovePos, directions) {
+ 
+  setNewPos(nextMovePos, direction) {
     this.pos = nextMovePos;
     this.dir = direction;
   }

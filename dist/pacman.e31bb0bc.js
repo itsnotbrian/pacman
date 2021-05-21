@@ -497,7 +497,38 @@ var Pacman = /*#__PURE__*/function () {
 
 var _default = Pacman;
 exports.default = _default;
-},{"@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","./setup":"setup.js"}],"Ghost.js":[function(require,module,exports) {
+},{"@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","./setup":"setup.js"}],"ghostMoves.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.randomMovement = randomMovement;
+
+var _setup = require("./setup");
+
+// Primitive random movement
+function randomMovement(position, direction, objectExist) {
+  var dir = direction;
+  var nextMovePos = position + dir.movement; // create an array from the directions object keys
+
+  var keys = Object.keys(_setup.DIRECTIONS);
+
+  while (objectExist(nextMovePos, _setup.OBJECT_TYPE.WALL) || objectExist(nextMovePos, _setup.OBJECT_TYPE.GHOST)) {
+    // Get a random key from the key array
+    var key = keys[Math.floor(Math.random() * keys.length)]; // Set the next move
+
+    dir = _setup.DIRECTIONS[key]; // Set the next move
+
+    nextMovePos = position + dir.movement;
+  }
+
+  return {
+    nextMovePos: nextMovePos,
+    direction: dir
+  };
+}
+},{"./setup":"setup.js"}],"Ghost.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -512,6 +543,8 @@ var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/cl
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
 
 var _setup = require("./setup");
+
+var _ghostMoves = require("./ghostMoves");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -542,11 +575,11 @@ var Ghost = /*#__PURE__*/function () {
       }
 
       this.timer++;
-      return false;
     }
   }, {
     key: "getNextMove",
     value: function getNextMove(objectExist) {
+      //call move algorithm here
       var _this$movement = this.movement(this.pos, this.dir, objectExist),
           nextMovePos = _this$movement.nextMovePos,
           direction = _this$movement.direction;
@@ -569,7 +602,7 @@ var Ghost = /*#__PURE__*/function () {
     }
   }, {
     key: "setNewPos",
-    value: function setNewPos(nextMovePos, directions) {
+    value: function setNewPos(nextMovePos, direction) {
       this.pos = nextMovePos;
       this.dir = direction;
     }
@@ -579,7 +612,7 @@ var Ghost = /*#__PURE__*/function () {
 
 var _default = Ghost;
 exports.default = _default;
-},{"@babel/runtime/helpers/toConsumableArray":"node_modules/@babel/runtime/helpers/toConsumableArray.js","@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","./setup":"setup.js"}],"sounds/munch.wav":[function(require,module,exports) {
+},{"@babel/runtime/helpers/toConsumableArray":"node_modules/@babel/runtime/helpers/toConsumableArray.js","@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","./setup":"setup.js","./ghostMoves":"ghostMoves.js"}],"sounds/munch.wav":[function(require,module,exports) {
 module.exports = "/munch.50161df6.wav";
 },{}],"sounds/pill.wav":[function(require,module,exports) {
 module.exports = "/pill.d5173a33.wav";
@@ -770,7 +803,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64978" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49295" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
