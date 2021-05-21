@@ -21,5 +21,7 @@
       "@babel/plugin-transform-runtime"
     ]
   },
-  "dependencies": {}
+  "dependencies": {
+    "setup": "0.0.3"
+  }
 }

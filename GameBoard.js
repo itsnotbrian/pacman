@@ -1,4 +1,4 @@
-import {GRIDE_SIZE, CELL_SIZE, OBJECT_TYPE, CLASS_LIST} from './setup'
+import {GRID_SIZE, CELL_SIZE, OBJECT_TYPE, CLASS_LIST} from './setup';
 
 class gameBoard {
     constructor(DOMGrid) {
@@ -36,7 +36,7 @@ addObject(pos, classes) {
     this.grid[pos].classList.add(...classes);
 
 }
-removeoObject(pos, classes) {
+removeObject(pos, classes) {
     this.grid[pos].classList.remove(...classes);
 
 }
@@ -48,4 +48,13 @@ rotateDiv(pos, deg) {
     this.grid[pos].style.transform = `rotate(${deg}deg)`;
 }
 
+static createGameBoard(DOMGrid, level) {
+    const board = new this(DOMGrid);
+    board.createGrid(level);
+    return board;
+   }
 }
+export default GameBoard;
+
+
+   
