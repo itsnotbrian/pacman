@@ -1,3 +1,7 @@
+app.get("/", function(req, res) {
+  res.json(path.join(__dirname, "public/index.html"));
+});
+
 import { LEVEL, OBJECT_TYPE } from './setup';
 import { randomMovement } from './ghostmoves';
 // Classes
