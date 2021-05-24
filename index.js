@@ -1,5 +1,5 @@
 app.get("/", function(req, res) {
-  res.json(path.join(__dirname, "public/index.html"));
+  res.json(path.join(__dirname, "./index.html"));
 });
 
 import { LEVEL, OBJECT_TYPE } from './setup';
